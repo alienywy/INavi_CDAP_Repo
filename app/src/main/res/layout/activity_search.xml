@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/direction_header_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#33ACFF"
+    android:clickable="true"
+    android:gravity="left|center"
+    android:orientation="horizontal"
+    android:paddingTop="28dp">
+
+
+    <ImageButton
+        android:id="@+id/direction_header_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:onClick="goback"
+        android:paddingBottom="@dimen/square_button_padding"
+        android:paddingLeft="@dimen/square_button_padding"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="83dp"
+        android:layout_weight="10"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/ic_adjust_black" />
+
+            <AutoCompleteTextView
+                android:id="@+id/direction_header_from_text"
+                android:layout_width="0dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner"
+                android:completionThreshold="1"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="choose_from"
+                android:inputType="textNoSuggestions|text"
+                android:maxLines="1"
+                android:paddingRight="0dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="#d2d2d2"
+                android:textColorLink="#33ACFF"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/ic_adjust" />
+
+            <AutoCompleteTextView
+                android:id="@+id/direction_header_to_text"
+                android:layout_width="10dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner"
+                android:completionThreshold="1"
+                android:gravity="center_vertical"
+                android:hint="choose_to"
+                android:inputType="textNoSuggestions|text"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                android:textColorHint="#d2d2d2"
+                android:textColorLink="#33ACFF"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="67dp"
+            android:layout_height="65dp"
+            android:layout_gravity="top|bottom|left|right|center_vertical|fill_vertical|fill_horizontal|fill|clip_vertical|clip_horizontal|start|end"
+            android:layout_weight="1"
+            android:background="@drawable/ic_directions_black_24dp"
+            android:gravity="right|center_vertical|center_horizontal|center|fill|end"
+            android:onClick="navigation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
