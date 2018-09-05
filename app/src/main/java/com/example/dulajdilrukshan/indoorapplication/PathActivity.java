@@ -602,8 +602,14 @@ public class PathActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String value="taco bell";
+                Intent i = new Intent(PathActivity.this, ShopRate.class);
+                i.putExtra("key",value);
+                startActivity(i);
 
-                startActivity(new Intent(PathActivity.this,ShopRate.class));
+
+//                startActivity(new Intent(PathActivity.this,ShopRate.class));
+
 //                Toast.makeText(getApplicationContext(), "Hello, I'm Custom Alert Dialog", Toast.LENGTH_LONG).show();
             }
         });
