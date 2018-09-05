@@ -7,4 +7,3 @@ Visit this Link do as it says
 
 https://guides.github.com/activities/forking/
 
-To commit Changes Use the GitHub Desktop
