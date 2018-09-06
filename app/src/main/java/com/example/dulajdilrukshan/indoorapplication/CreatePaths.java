@@ -282,7 +282,7 @@ public class CreatePaths {
 
 
         }
-
+        //toDCCN
         for(int y=0;y<toDccn.size();y++)
         {
             if (toDccn.get(y).equalsIgnoreCase(destination))
@@ -297,33 +297,29 @@ public class CreatePaths {
 
         }
 
-        if (startlocation2index < destination2index) {
-            for (int i = startlocation2index; i <= destination2index; i++) {
 
-                {
-                    path3.add(toDccn.get(i));
-                }
-            }
-        } else
-        if (startlocation2index > destination2index)
-        {
-            if(!isDestination2)
-            {
-                for (int i = startlocation2index; i < maintostaff.size(); i++) {
+       if(isDestinationDccn){
+             if (startlocation2index < destination2index) {
+                 for (int i = startlocation2index; i <= destination2index; i++) {
 
-                    {
-                        path3.add(toDccn.get(i));
-                    }
-                }
-            }
-            else
             {
-                for (int i = startlocation2index; i >= destination2index; i--)
-                {
-                    path3.add(toDccn.get(i));
-                }
+                path3.add(toDccn.get(i));
             }
         }
+             } else if (startlocation2index > destination2index) {
+              if (!isDestinationDccn) {
+                for (int i = startlocation2index; i < maintostaff.size(); i++) {
+
+                {
+                    path3.add(toDccn.get(i));
+                }
+            }
+        } else {
+            for (int i = startlocation2index; i >= destination2index; i--) {
+                path3.add(toDccn.get(i));
+            }
+        }
+    }}
 
 
 
