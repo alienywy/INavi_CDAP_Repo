@@ -1,28 +1,22 @@
 package com.example.dulajdilrukshan.indoorapplication;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Shader;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CreatePaths{
+public class CreatePaths {
 
 //    public LinearLayout Auditorium,Multimedia,MSCRoom,LectureHall1,Library,DCCNLab,LiftLobby,CommonRoom,WashRooms,StaffRoom;
 //    public LinearLayout con1,con2,con4,main,con5,con6,con7,con8,con9,con10;
 
     int startlocation1index=0,destination1index=0,startlocation2index=0,destination2index=0;
-    boolean isDestination1=false,isDestination2=false;
+    boolean isDestination1=false,isDestination2=false,isDestinationDccn=false;
     int index=0;
     PathActivity location=new PathActivity();
 
@@ -118,6 +112,11 @@ public class CreatePaths{
                     }
                 }
 
+            }
+
+            if(isDestinationDccn)
+            {
+                canvas.drawLine(connectionarray[3][0],connectionarray[3][1],connectionarray[9][0],connectionarray[9][1], paint);
             }
 
 
@@ -277,6 +276,7 @@ public class CreatePaths{
 
                 destination2index = y;
                 isDestination2=true;
+
                 break;
             }
 
@@ -290,6 +290,7 @@ public class CreatePaths{
 
                 destination2index = y;
                 isDestination2=true;
+                isDestinationDccn=true;
                 break;
             }
 
