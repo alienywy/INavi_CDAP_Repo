@@ -4,19 +4,18 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,6 +25,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LocateFriend extends AppCompatActivity {
@@ -36,6 +37,7 @@ public class LocateFriend extends AppCompatActivity {
     Handler handler;
     ProgressDialog nDialog;
     int reqId;
+    AutoCompleteTextView friendName;
 
     Globals sharedData = Globals.getInstance();
 
@@ -44,13 +46,63 @@ public class LocateFriend extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locate_friend);
 
+        friendName = findViewById(R.id.txtfriendname);
+
         queue = Volley.newRequestQueue(this);
+
+        try {
+            String url = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getUserList";
+
+
+
+
+            getRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONArray users = new JSONArray(response);
+                                JSONObject userObj ;
+                                String userArray[] = new String[users.length()];
+
+                                for (int i = 0; i < users.length(); i++) {
+                                    userObj= users.getJSONObject(i);
+                                    userArray[i] = userObj.getString("username");
+                                }
+
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,userArray);
+
+                                friendName.setAdapter(adapter);
+
+                            } catch (JSONException e) {
+
+                                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),"2"+error.toString(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+            // add it to the RequestQueue
+            queue.add(getRequest);
+
+        }
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
 
     }
     public void test(View view) {
 
 
-        final TextView friend= (TextView)findViewById(R.id.txtfriendname);
+        final AutoCompleteTextView friend= findViewById(R.id.txtfriendname);
 
         //SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         //String myName = mPreferences.getString(getString(R.string.pusername), "");
