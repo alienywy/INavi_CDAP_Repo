@@ -238,7 +238,7 @@ public class CreatePaths {
             }
         }
 //Only if the Destination and Start location are in a same array
-        if(isDestination1&&isStart2) {
+        if(isDestination1&&isStart1) {
             for (int i = 0; i < path1.size() - 1; i++) {
                 if (!path1.get(i).startsWith("con")) {
                     if (!path1.get(i).equalsIgnoreCase(startlocation) || !path1.get(path1.size() - 1).equalsIgnoreCase(destination)) {
@@ -248,8 +248,8 @@ public class CreatePaths {
 
             }
         }
-//Remove unwanted paths
-        if(isDestination1||isStart2) {
+//If the Destination is in Auditoriumtostaff and StartLocation is in maintostaff
+        if(isDestination1&&isStart2) {
             for (int i = 0; i < path1.size(); i++) {
                 if (!path1.get(i).startsWith("con")) {
                     if (!path1.get(i).equalsIgnoreCase(startlocation) || !path1.get(i).equalsIgnoreCase(destination)) {

@@ -21,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -376,12 +377,16 @@ public class PathActivity extends AppCompatActivity {
 //        //int index=0;
 //
         showpaths();
-//        cp.createpath(autoCompleteTextViewfrom.getText().toString(),autoCompleteTextViewto.getText().toString());
-cp.createpath("Lift","Auditorium");
+        cp.createpath(autoCompleteTextViewfrom.getText().toString(),autoCompleteTextViewto.getText().toString());
+//        cp.createpath("Lift","Auditorium");
         cp.drawingpaths(createpaths(),locationarrays,connectionarray);
 
 //        txtsub.setText(locationarrays[0][0]+" "+locationarrays[0][1]);
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
 
 
 
