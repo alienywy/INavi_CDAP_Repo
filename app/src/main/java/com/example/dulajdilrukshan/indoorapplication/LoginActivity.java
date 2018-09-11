@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-//    Checking for internet connection Avaialable
+//    Checking for internet connection Available
 
     public boolean isOnline(Context c) {
         ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);

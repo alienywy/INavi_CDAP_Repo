@@ -3,6 +3,7 @@ package com.example.dulajdilrukshan.indoorapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,9 +42,9 @@ public class ShopRate extends AppCompatActivity{
     RequestQueue MyRequestQueue;
     String username = sharedData.getValue();
     String shopName;
-    String review;
-    boolean rateSession = false;
-    boolean reviewSession = false;
+
+    JSONArray reviews;
+
 
     int shopRate = 1;
 
@@ -52,55 +54,51 @@ public class ShopRate extends AppCompatActivity{
         setContentView(R.layout.activity_shop_rate);
         MyRequestQueue = Volley.newRequestQueue(this);
 
-        ListView resultsListView = (ListView) findViewById(R.id.results_listview);
+        final ListView resultsListView = (ListView) findViewById(R.id.results_listview);
+
+        final String getReviewurl = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getShopReviews/coffee%20bean";
+
+        MyStringRequest = new StringRequest(Request.Method.GET,
+                getReviewurl,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+                            reviews = new JSONArray(response);
+
+                            JSONObject comments;
+                            List<HashMap<String, String>> listItems = new ArrayList<>();
+                            SimpleAdapter adapter = new SimpleAdapter(getApplicationContext(), listItems, R.layout.list_item, new String[]{"First Line", "Second Line"}, new int[]{R.id.text1, R.id.text2});
+                            resultsListView.setAdapter(adapter);
+                            for (int i = 0; i < reviews.length(); i++) {
+                                try {
+                                    comments = reviews.getJSONObject(i);
+                                    HashMap<String, String> resultsMap = new HashMap<>();
+                                    resultsMap.put("First Line", comments.getString("username").toString());
+                                    resultsMap.put("Second Line", comments.getString("review").toString());
+                                    listItems.add(resultsMap);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
 
 
-//        setRatingUrl = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/setrating";
-
-//        JSONArray reviews = new JSONArray();
-//
-//        reviews.get["username"].toString();
-//        reviews.get["review"].toString();
-//
-//
-//        for (JSONArray js : reviews){
-//            nameAddresses.put(js.get(0).toString(), reviews.get["review"].toString());
-//        }
-//
-//
-//        try{
-//            JSONArray users = new JSONArray(response)
-//
-//        }catch (JSONException e)
-//        {
-//
-//        }
+                    }
+                }, new Response.ErrorListener(){ //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
 
-        HashMap<String, String> nameAddresses = new HashMap<>();
-        nameAddresses.put("Diana", "3214 Broadway Avenue");
-        nameAddresses.put("Tyga", "343 Rack City Drive");
-        nameAddresses.put("Rich Homie Quan", "111 Everything Gold Way");
-        nameAddresses.put("Donna", "789 Escort St");
-        nameAddresses.put("Bartholomew", "332 Dunkin St");
-        nameAddresses.put("Eden", "421 Angelic Blvd");
+            }
 
-        List<HashMap<String, String>> listItems = new ArrayList<>();
-        SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
-                new String[]{"First Line", "Second Line"},
-                new int[]{R.id.text1, R.id.text2});
+        });
 
-
-        Iterator it = nameAddresses.entrySet().iterator();
-        while (it.hasNext()) {
-            HashMap<String, String> resultsMap = new HashMap<>();
-            Map.Entry pair = (Map.Entry) it.next();
-            resultsMap.put("First Line", pair.getKey().toString());
-            resultsMap.put("Second Line", pair.getValue().toString());
-            listItems.add(resultsMap);
-        }
-
-        resultsListView.setAdapter(adapter);
+        MyRequestQueue.add(MyStringRequest);
 
 
         mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
@@ -146,7 +144,6 @@ public class ShopRate extends AppCompatActivity{
                 if (extras != null) {
                     shopName = extras.getString("key");
                     pushRateData();
-//                    pushReviewData();
                 }
                 if (extras == null) {
                     Toast.makeText(ShopRate.this, "Shop Name Cannot be Empty", Toast.LENGTH_LONG).show();
@@ -155,17 +152,16 @@ public class ShopRate extends AppCompatActivity{
                 if (mFeedback.getText().toString().isEmpty()) {
                     Toast.makeText(ShopRate.this, "Please fill in feedback Box", Toast.LENGTH_LONG).show();
                 }
-//                 else {
-//                    mFeedback.setText("");
-//                    mRatingBar.setRating(0);
-//                    Toast.makeText(ShopRate.this, "Thank you for sharing your feedback", Toast.LENGTH_SHORT).show();
-//                }
+
             }
         });
 
     }
 
     public void pushRateData() {
+        EditText getReview = (EditText) findViewById(R.id.etFeedback);
+
+        final String review = getReview.getText().toString();
 
         final String setRatingUrl = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/setrating";
 
@@ -177,7 +173,7 @@ public class ShopRate extends AppCompatActivity{
 
                     if (response.equals("1")) {
 
-//                        Toast.makeText(getApplicationContext(), " Thank you for sharing your feedback ", Toast.LENGTH_LONG).show();
+                       Toast.makeText(getApplicationContext(), " Thank you for sharing your feedback ", Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     String err = e.getMessage();
@@ -197,6 +193,8 @@ public class ShopRate extends AppCompatActivity{
 
                 FormData.put("shopName", shopName);
                 FormData.put("userRating", shopRate + "");
+//                FormData.put("username", username);
+//                FormData.put("review", review);
 
                 return FormData;
 
@@ -207,50 +205,7 @@ public class ShopRate extends AppCompatActivity{
 
     }
 
-    public void pushReviewData() {
-        EditText getReview = (EditText) findViewById(R.id.etFeedback);
 
-        final String review = getReview.getText().toString();
-
-        final String setRatingUrl = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/setrating";
-
-        MyStringRequest = new StringRequest(Request.Method.POST, setRatingUrl, new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response) {
-                try {
-//                 Server Sends a Response as "1" if data is Success
-
-                    if (response.equals("1")) {
-
-                        Toast.makeText(getApplicationContext(), " Thank you for sharing your feedback ", Toast.LENGTH_LONG).show();
-                    }
-                } catch (Exception e) {
-                    String err = e.getMessage();
-                    Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> FormData = new HashMap<String, String>();
-
-                FormData.put("username", username);
-                FormData.put("review", review);
-                FormData.put("shop", shopName);
-
-                return FormData;
-
-            }
-        };
-        MyRequestQueue.add(MyStringRequest);
-
-
-    }
 
 
 }
