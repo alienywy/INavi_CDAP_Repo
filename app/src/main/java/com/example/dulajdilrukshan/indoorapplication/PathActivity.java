@@ -486,10 +486,10 @@ public class PathActivity extends AppCompatActivity {
 
 
        //Y Coordinates
-        auditoriumY= auditoriumlocationarray[1]-50;
+        auditoriumY= auditoriumlocationarray[1]-65;
         multimediaY=multimedialocationarray[1]-50;
         mscroomY=mscroomlocationarray[1]-50;
-        libraryY=librarylocationarray[1]+50;
+        libraryY=librarylocationarray[1]-65;
         lecthall1Y=lecturehall1locationarray[1]-50;
         dccnY=dccnlablocationarray[1]-60;
         liftY=liftlocationarray[1]-50;
@@ -499,7 +499,7 @@ public class PathActivity extends AppCompatActivity {
 
         con1Y=con1array[1]-50;
         con2Y=con2array[1]-50;
-        con4Y=con4array[1]-90;
+        con4Y=con4array[1]-65;
         con5Y=con5array[1]-50;
         con6Y=con6array[1]-50;
         con7Y=con7array[1]-50;
