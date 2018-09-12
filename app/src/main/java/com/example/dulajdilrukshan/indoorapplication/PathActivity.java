@@ -377,8 +377,8 @@ public class PathActivity extends AppCompatActivity {
 //        //int index=0;
 //
         showpaths();
-        cp.createpath(autoCompleteTextViewfrom.getText().toString(),autoCompleteTextViewto.getText().toString());
-//        cp.createpath("Lift","Auditorium");
+//        cp.createpath(autoCompleteTextViewfrom.getText().toString(),autoCompleteTextViewto.getText().toString());
+        cp.createpath("Auditorium","Library");
         cp.drawingpaths(createpaths(),locationarrays,connectionarray);
 
 //        txtsub.setText(locationarrays[0][0]+" "+locationarrays[0][1]);
@@ -398,12 +398,10 @@ public class PathActivity extends AppCompatActivity {
 
 
     public void submit(View view) {
-        EditText  txtsub = (EditText) findViewById(R.id.txtval);
-        Double value =Double.parseDouble(txtsub.getText().toString());
+        EditText text=findViewById(R.id.txtval);
+        float density = getResources().getDisplayMetrics().density;
+        text.setText(""+density);
 
-        val= value;
-
-        txtsub.setText("");
 
     }
 
@@ -491,9 +489,9 @@ public class PathActivity extends AppCompatActivity {
         auditoriumY= auditoriumlocationarray[1]-50;
         multimediaY=multimedialocationarray[1]-50;
         mscroomY=mscroomlocationarray[1]-50;
-        libraryY=librarylocationarray[1]-50;
+        libraryY=librarylocationarray[1]+50;
         lecthall1Y=lecturehall1locationarray[1]-50;
-        dccnY=dccnlablocationarray[1]-50;
+        dccnY=dccnlablocationarray[1]-60;
         liftY=liftlocationarray[1]-50;
         commonY=commonroomlocationarray[1]-50;
         staffY=staffroomlocationarray[1];
@@ -501,7 +499,7 @@ public class PathActivity extends AppCompatActivity {
 
         con1Y=con1array[1]-50;
         con2Y=con2array[1]-50;
-        con4Y=con4array[1]-50;
+        con4Y=con4array[1]-90;
         con5Y=con5array[1]-50;
         con6Y=con6array[1]-50;
         con7Y=con7array[1]-50;
