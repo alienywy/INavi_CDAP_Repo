@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/baseline_navigation_black_48"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".PathActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +33,7 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ShopRate" />
-        <activity android:name=".PathActivity"></activity>
+       <!-- <activity android:name=".PathActivity"></activity>-->
 
         <service
             android:name=".ScheduledService"
