@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="352dp"
-        android:layout_height="48dp"
+        android:layout_height="45dp"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="Give your FeedBack to Improve our Service"
@@ -34,7 +34,7 @@
         android:stepSize="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/shopimageView" />
 
     <Button
         android:id="@+id/btnSubmit"
@@ -42,7 +42,7 @@
         android:layout_height="33dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="28dp"
         android:background="#e57373"
         android:elevation="6dp"
         android:text="Rate"
@@ -52,13 +52,14 @@
         app:layout_constraintTop_toBottomOf="@+id/etFeedback" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="209dp"
-        android:layout_height="122dp"
+        android:id="@+id/shopimageView"
+        android:layout_width="191dp"
+        android:layout_height="112dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:srcCompat="@drawable/indoor_navigation" />
@@ -82,7 +83,7 @@
     <TextView
         android:id="@+id/tvRatingScale"
         android:layout_width="177dp"
-        android:layout_height="39dp"
+        android:layout_height="21dp"
         android:layout_gravity="center"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -97,17 +98,14 @@
 
     <ListView
         android:id="@+id/results_listview"
-        android:layout_width="356dp"
-        android:layout_height="101dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="353dp"
+        android:layout_height="171dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSubmit"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -383,7 +383,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.042"
-        app:srcCompat="@drawable/ic_adjust_black" />
+        app:srcCompat="@drawable/taco_bell_shop"
+        android:background="@android:color/transparent"/>
 
 
 </android.support.constraint.ConstraintLayout>
