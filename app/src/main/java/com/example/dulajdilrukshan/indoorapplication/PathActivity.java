@@ -637,15 +637,17 @@ public class PathActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String value="taco bell";
+                String url="http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getShopReviews/taco%20bell";
+                String name="taco bell";
                 Intent i = new Intent(PathActivity.this, ShopRate.class);
-                i.putExtra("key",value);
+                Bundle bundle = new Bundle();
+                bundle.putInt("image",R.drawable.taco_bell);
+                i.putExtras(bundle);
+                i.putExtra("keyUrl",url);
+                i.putExtra("keyName",name);
+
                 startActivity(i);
 
-
-//                startActivity(new Intent(PathActivity.this,ShopRate.class));
-
-//                Toast.makeText(getApplicationContext(), "Hello, I'm Custom Alert Dialog", Toast.LENGTH_LONG).show();
             }
         });
         close.setOnClickListener(new View.OnClickListener() {
