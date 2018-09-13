@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: io.supercharge:funnyloader-0.2.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/funnyloader-0.2.0.aar/6093c38c7c7100ee69c52306211c98ab/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/funnyloader-0.2.0.aar/6093c38c7c7100ee69c52306211c98ab/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.supercharge/funnyloader/0.2.0/92bb271132620694cccc6941fbc672ee3751dd3c/funnyloader-0.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

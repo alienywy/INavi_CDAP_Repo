@@ -21,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -163,6 +164,35 @@ public class PathActivity extends AppCompatActivity {
             }
         });
 
+        String url = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/gettemp";
+
+        MyStringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        double temperature = Double.parseDouble(response);
+
+                            /*
+                           RSSI loss [ dBm ] = 0.1996 × ( T [°C]  – 25[°C])
+                           where T is the temperature in the range of  25 °C ≤  T ≤ 65 °C
+
+                             */
+                        txpower = txpower + (0.1996*(temperature - 25));
+
+                        Toast.makeText(getApplicationContext(),temperature+"",Toast.LENGTH_SHORT).show();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
 
 
     }
@@ -174,6 +204,8 @@ public class PathActivity extends AppCompatActivity {
             return (lhs.level < rhs.level ? 1 : (lhs.level == rhs.level ? 0 : -1));
         }
     };
+
+
 
     private void TimerMethod() {
         this.runOnUiThread(measureRSSI);
@@ -244,7 +276,8 @@ public class PathActivity extends AppCompatActivity {
 
                                     showLocation(x, y);
 
-                                    Toast.makeText(PathActivity.this, jsonObject.getDouble("x") + " " + jsonObject.getDouble("y"), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PathActivity.this, jsonObject.getDouble("x")
+                                            + " " + jsonObject.getDouble("y"), Toast.LENGTH_SHORT).show();
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -344,12 +377,16 @@ public class PathActivity extends AppCompatActivity {
 //        //int index=0;
 //
         showpaths();
-        cp.createpath("Auditorium","DCCNLab");
- //       cp.createpath(autoCompleteTextViewfrom.getText().toString(),autoCompleteTextViewto.getText().toString());
+//        cp.createpath(autoCompleteTextViewfrom.getText().toString(),autoCompleteTextViewto.getText().toString());
+        cp.createpath("Auditorium","Library");
         cp.drawingpaths(createpaths(),locationarrays,connectionarray);
 
 //        txtsub.setText(locationarrays[0][0]+" "+locationarrays[0][1]);
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
 
 
 
@@ -361,12 +398,10 @@ public class PathActivity extends AppCompatActivity {
 
 
     public void submit(View view) {
-        EditText  txtsub = (EditText) findViewById(R.id.txtval);
-        Double value =Double.parseDouble(txtsub.getText().toString());
+        EditText text=findViewById(R.id.txtval);
+        float density = getResources().getDisplayMetrics().density;
+        text.setText(""+density);
 
-        val= value;
-
-        txtsub.setText("");
 
     }
 
@@ -451,12 +486,12 @@ public class PathActivity extends AppCompatActivity {
 
 
        //Y Coordinates
-        auditoriumY= auditoriumlocationarray[1]-50;
+        auditoriumY= auditoriumlocationarray[1]-65;
         multimediaY=multimedialocationarray[1]-50;
         mscroomY=mscroomlocationarray[1]-50;
-        libraryY=librarylocationarray[1]-50;
+        libraryY=librarylocationarray[1]-65;
         lecthall1Y=lecturehall1locationarray[1]-50;
-        dccnY=dccnlablocationarray[1]-50;
+        dccnY=dccnlablocationarray[1]-60;
         liftY=liftlocationarray[1]-50;
         commonY=commonroomlocationarray[1]-50;
         staffY=staffroomlocationarray[1];
@@ -464,7 +499,7 @@ public class PathActivity extends AppCompatActivity {
 
         con1Y=con1array[1]-50;
         con2Y=con2array[1]-50;
-        con4Y=con4array[1]-50;
+        con4Y=con4array[1]-65;
         con5Y=con5array[1]-50;
         con6Y=con6array[1]-50;
         con7Y=con7array[1]-50;

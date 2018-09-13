@@ -1,28 +1,22 @@
 package com.example.dulajdilrukshan.indoorapplication;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Shader;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CreatePaths{
+public class CreatePaths {
 
 //    public LinearLayout Auditorium,Multimedia,MSCRoom,LectureHall1,Library,DCCNLab,LiftLobby,CommonRoom,WashRooms,StaffRoom;
 //    public LinearLayout con1,con2,con4,main,con5,con6,con7,con8,con9,con10;
 
     int startlocation1index=0,destination1index=0,startlocation2index=0,destination2index=0;
-    boolean isDestination1=false,isDestination2=false;
+    boolean isDestination1=false,isDestination2=false,isDestinationDccn=false,isStart1=false,isStart2=false;
     int index=0;
     PathActivity location=new PathActivity();
 
@@ -120,6 +114,11 @@ public class CreatePaths{
 
             }
 
+            if(isDestinationDccn)
+            {
+                canvas.drawLine(connectionarray[3][0],connectionarray[3][1],connectionarray[9][0],connectionarray[9][1], paint);
+            }
+
 
         //Destination
             for (int j = 0; j < locationindex.size(); j++)
@@ -192,6 +191,7 @@ public class CreatePaths{
                             if (auditoriumtomain.get(i).equalsIgnoreCase(startlocation))
                             {
                                 startlocation1index = i;
+                                isStart1=true;
                                 break;
                             }
 
@@ -210,7 +210,7 @@ public class CreatePaths{
 
 
         }
-        if (startlocation1index < destination1index) {
+        if (startlocation1index < destination1index&&(startlocation1index!=0&&destination1index!=0)) {
             for (int i = startlocation1index; i <= destination1index; i++) {
 
                 {
@@ -218,7 +218,7 @@ public class CreatePaths{
                 }
             }
         } else
-            if (startlocation1index > destination1index)
+            if (startlocation1index > destination1index||(startlocation1index==0||destination1index==0))
             {
                 if(!isDestination1)
                 {
@@ -231,14 +231,14 @@ public class CreatePaths{
                 }
                 else
                 {
-            for (int i = startlocation1index; i >= destination1index; i--)
+            for (int i = destination1index; i < auditoriumtomain.size(); i++)
             {
                 path1.add(auditoriumtomain.get(i));
             }
             }
         }
 //Only if the Destination and Start location are in a same array
-        if(isDestination1) {
+        if(isDestination1&&isStart1) {
             for (int i = 0; i < path1.size() - 1; i++) {
                 if (!path1.get(i).startsWith("con")) {
                     if (!path1.get(i).equalsIgnoreCase(startlocation) || !path1.get(path1.size() - 1).equalsIgnoreCase(destination)) {
@@ -248,8 +248,17 @@ public class CreatePaths{
 
             }
         }
+//If the Destination is in Auditoriumtostaff and StartLocation is in maintostaff
+        if(isDestination1&&isStart2) {
+            for (int i = 0; i < path1.size(); i++) {
+                if (!path1.get(i).startsWith("con")) {
+                    if (!path1.get(i).equalsIgnoreCase(startlocation) || !path1.get(i).equalsIgnoreCase(destination)) {
+                        path1.remove(i);
+                    }
+                }
 
-
+            }
+        }
 
 
 
@@ -264,6 +273,7 @@ public class CreatePaths{
                     if (maintostaff.get(i).equalsIgnoreCase(startlocation))
                     {
                         startlocation2index = i;
+                        isStart2=true;
                         break;
                     }
 
@@ -277,12 +287,13 @@ public class CreatePaths{
 
                 destination2index = y;
                 isDestination2=true;
+
                 break;
             }
 
 
         }
-
+        //toDCCN
         for(int y=0;y<toDccn.size();y++)
         {
             if (toDccn.get(y).equalsIgnoreCase(destination))
@@ -290,39 +301,36 @@ public class CreatePaths{
 
                 destination2index = y;
                 isDestination2=true;
+                isDestinationDccn=true;
                 break;
             }
 
 
         }
 
-        if (startlocation2index < destination2index) {
-            for (int i = startlocation2index; i <= destination2index; i++) {
 
-                {
-                    path3.add(toDccn.get(i));
-                }
-            }
-        } else
-        if (startlocation2index > destination2index)
-        {
-            if(!isDestination2)
-            {
-                for (int i = startlocation2index; i < maintostaff.size(); i++) {
+       if(isDestinationDccn){
+             if (startlocation2index < destination2index) {
+                 for (int i = startlocation2index; i <= destination2index; i++) {
 
-                    {
-                        path3.add(toDccn.get(i));
-                    }
-                }
-            }
-            else
             {
-                for (int i = startlocation2index; i >= destination2index; i--)
-                {
-                    path3.add(toDccn.get(i));
-                }
+                path3.add(toDccn.get(i));
             }
         }
+             } else if (startlocation2index > destination2index) {
+              if (!isDestinationDccn) {
+                for (int i = startlocation2index; i < maintostaff.size(); i++) {
+
+                {
+                    path3.add(toDccn.get(i));
+                }
+            }
+        } else {
+            for (int i = startlocation2index; i >= destination2index; i--) {
+                path3.add(toDccn.get(i));
+            }
+        }
+    }}
 
 
 
