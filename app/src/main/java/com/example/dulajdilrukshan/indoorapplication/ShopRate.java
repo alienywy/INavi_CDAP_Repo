@@ -46,6 +46,7 @@ public class ShopRate extends AppCompatActivity{
     // String username = sharedData.getValue();
     String shopName;
     String getReviewurl;
+    String url;
     ImageView imageView;
 
     JSONArray reviews;
@@ -78,8 +79,10 @@ public class ShopRate extends AppCompatActivity{
 
         final ListView resultsListView = (ListView) findViewById(R.id.results_listview);
 
+        url = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getShopReviews/";
 
-        MyStringRequest = new StringRequest(Request.Method.GET, getReviewurl, new Response.Listener<String>(){
+
+        MyStringRequest = new StringRequest(Request.Method.GET, url+getReviewurl, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
@@ -243,7 +246,7 @@ public class ShopRate extends AppCompatActivity{
         final ListView resultsListView = (ListView) findViewById(R.id.results_listview);
 
 
-        MyStringRequest = new StringRequest(Request.Method.GET, getReviewurl, new Response.Listener<String>(){
+        MyStringRequest = new StringRequest(Request.Method.GET, url+getReviewurl, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {

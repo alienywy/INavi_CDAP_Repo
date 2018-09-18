@@ -33,6 +33,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -53,27 +54,25 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-
-public class PathActivity extends AppCompatActivity {
-    ImageView drawingImageView,creatpath,floorplan;
+public class PathActivity extends AppCompatActivity{
+    ImageView drawingImageView, creatpath, floorplan;
     TextView error;
     Button navi;
-    int index=0;
+    int index = 0;
 
     com.example.dulajdilrukshan.indoorapplication.Paths paths = new com.example.dulajdilrukshan.indoorapplication.Paths();
-    public float locationarrays[][],connectionarray[][];
+    public float locationarrays[][], connectionarray[][];
     private Timer mytimer;
     WifiManager wifiManager;
     AutoCompleteTextView autoCompleteTextViewfrom;
     AutoCompleteTextView autoCompleteTextViewto;
-    LinearLayout Auditorium,Multimedia,MSCRoom,LectureHall1,Library,DCCNLab,LiftLobby,CommonRoom,WashRooms,StaffRoom;
-    LinearLayout Con1,Con2,Con4,Main,Con5,Con6,Con7,Con8,Con9,Con10;
+    LinearLayout Auditorium, Multimedia, MSCRoom, LectureHall1, Library, DCCNLab, LiftLobby, CommonRoom, WashRooms, StaffRoom;
+    LinearLayout Con1, Con2, Con4, Main, Con5, Con6, Con7, Con8, Con9, Con10;
 
     double d;
     double temp;
     double txpower = 32;
     double val = 1.8;
-
 
 
     RequestQueue MyRequestQueue;
@@ -89,51 +88,56 @@ public class PathActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
 
-    ImageButton myButton;
+    ImageButton shop1;
+    ImageButton shop2;
+    ImageButton shop3;
+    TextView viewRate;
+
     Dialog MyDialog;
-    Button hello,close;
+    Button rate, close;
     private PopupWindow mypopup;
     private ConstraintLayout popupconstraint;
+    Double rating;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_path);
-        com.example.dulajdilrukshan.indoorapplication.CreatePaths createPaths=new com.example.dulajdilrukshan.indoorapplication.CreatePaths();
-        Auditorium=findViewById(R.id.auditorium);
-        Multimedia=findViewById(R.id.multimedia);
-        MSCRoom=findViewById(R.id.mscroom);
-        LectureHall1=findViewById(R.id.hallone);
-        Library=findViewById(R.id.library);
-        DCCNLab=findViewById(R.id.dccn);
-        LiftLobby=findViewById(R.id.lift);
-        CommonRoom=findViewById(R.id.commonroom);
-        WashRooms=findViewById(R.id.washroom);
-        StaffRoom=findViewById(R.id.staffroom);
-        Con2=findViewById(R.id.con2);
-        Con4=findViewById(R.id.con4);
-        Con5=findViewById(R.id.con5);
-        Main=findViewById(R.id.maincon);
-        Con6=findViewById(R.id.con6);
-        Con7=findViewById(R.id.con7);
-        Con8=findViewById(R.id.con8);
-        Con9=findViewById(R.id.con9);
-        Con10=findViewById(R.id.con10);
-        Con1=findViewById(R.id.con1);
+        com.example.dulajdilrukshan.indoorapplication.CreatePaths createPaths = new com.example.dulajdilrukshan.indoorapplication.CreatePaths();
+        Auditorium = findViewById(R.id.auditorium);
+        Multimedia = findViewById(R.id.multimedia);
+        MSCRoom = findViewById(R.id.mscroom);
+        LectureHall1 = findViewById(R.id.hallone);
+        Library = findViewById(R.id.library);
+        DCCNLab = findViewById(R.id.dccn);
+        LiftLobby = findViewById(R.id.lift);
+        CommonRoom = findViewById(R.id.commonroom);
+        WashRooms = findViewById(R.id.washroom);
+        StaffRoom = findViewById(R.id.staffroom);
+        Con2 = findViewById(R.id.con2);
+        Con4 = findViewById(R.id.con4);
+        Con5 = findViewById(R.id.con5);
+        Main = findViewById(R.id.maincon);
+        Con6 = findViewById(R.id.con6);
+        Con7 = findViewById(R.id.con7);
+        Con8 = findViewById(R.id.con8);
+        Con9 = findViewById(R.id.con9);
+        Con10 = findViewById(R.id.con10);
+        Con1 = findViewById(R.id.con1);
         autoCompleteTextViewfrom = (AutoCompleteTextView) findViewById(R.id.direction_header_from_text);
         autoCompleteTextViewto = (AutoCompleteTextView) findViewById(R.id.direction_header_to_text);
 
-        Resources resources=getResources();
+        Resources resources = getResources();
 
-        String [] locations = resources.getStringArray(R.array.locations_array);
+        String[] locations = resources.getStringArray(R.array.locations_array);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,locations);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, locations);
 
         autoCompleteTextViewfrom.setAdapter(adapter);
         autoCompleteTextViewto.setAdapter(adapter);
-        navi=findViewById(R.id.button3);
+        navi = findViewById(R.id.button3);
 
         checkAndRequestPermissions();
 
@@ -143,7 +147,7 @@ public class PathActivity extends AppCompatActivity {
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
         mytimer = new Timer();
-        mytimer.schedule(new TimerTask() {
+        mytimer.schedule(new TimerTask(){
             @Override
             public void run() {
                 TimerMethod();
@@ -151,23 +155,43 @@ public class PathActivity extends AppCompatActivity {
         }, 0, 2000);
 
 
+        shop1 = (ImageButton) findViewById(R.id.shop1);
+        shop2 = (ImageButton) findViewById(R.id.shop2);
+        shop3 = (ImageButton) findViewById(R.id.shop3);
+//        viewRate = (TextView) findViewById(R.id.viewrate);
 
 
-        myButton = (ImageButton) findViewById(R.id.shop1);
-
-
-
-        myButton.setOnClickListener(new View.OnClickListener() {
+        shop1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                MyCustomAlertDialog();
+
+
+                getRating("taco%20bell");
+
+
+                tacobellDialog();
+            }
+        });
+
+        shop2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                coffeeBeanDialog();
+            }
+        });
+        shop3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                teaAveneueDialog();
             }
         });
 
         String url = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/gettemp";
 
         MyStringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+                new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
 
@@ -178,27 +202,24 @@ public class PathActivity extends AppCompatActivity {
                            where T is the temperature in the range of  25 °C ≤  T ≤ 65 °C
 
                              */
-                        txpower = txpower + (0.1996*(temperature - 25));
+                        txpower = txpower + (0.1996 * (temperature - 25));
 
-                        Toast.makeText(getApplicationContext(),temperature+"",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), temperature + "", Toast.LENGTH_SHORT).show();
 
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
 
 
     }
 
     // Overriding compare method to sort by rss level
-    Comparator<ScanResult> comparator = new Comparator<ScanResult>() {
+    Comparator<ScanResult> comparator = new Comparator<ScanResult>(){
         @Override
         public int compare(ScanResult lhs, ScanResult rhs) {
             return (lhs.level < rhs.level ? 1 : (lhs.level == rhs.level ? 0 : -1));
@@ -206,12 +227,11 @@ public class PathActivity extends AppCompatActivity {
     };
 
 
-
     private void TimerMethod() {
         this.runOnUiThread(measureRSSI);
     }
 
-    private Runnable measureRSSI = new Runnable() {
+    private Runnable measureRSSI = new Runnable(){
 
         public void run() {
 
@@ -262,7 +282,7 @@ public class PathActivity extends AppCompatActivity {
 
                         String url = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getlocation";
 
-                        MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>(){
                             @Override
                             public void onResponse(String response) {
 
@@ -284,12 +304,12 @@ public class PathActivity extends AppCompatActivity {
                                 }
 
                             }
-                        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+                        }, new Response.ErrorListener(){ //Create an error listener to handle errors appropriately.
                             @Override
                             public void onErrorResponse(VolleyError error) {
 
                             }
-                        }) {
+                        }){
                             protected Map<String, String> getParams() {
                                 Map<String, String> FormData = new HashMap<String, String>();
 
@@ -318,7 +338,6 @@ public class PathActivity extends AppCompatActivity {
 
         }
     };
-
 
 
     public Canvas showlocation() {
@@ -364,22 +383,20 @@ public class PathActivity extends AppCompatActivity {
     }
 
 
-
-
 //Gowtham-ShowPaths
 
 
     public void navigation(View view) {
 
 //      // createPaths.showpaths(createpaths(),"Auditorium","Multimedia");
-        CreatePaths cp=new CreatePaths();
-        EditText  txtsub = (EditText) findViewById(R.id.txtval);
+        CreatePaths cp = new CreatePaths();
+        EditText txtsub = (EditText) findViewById(R.id.txtval);
 //        //int index=0;
 //
         showpaths();
 //        cp.createpath(autoCompleteTextViewfrom.getText().toString(),autoCompleteTextViewto.getText().toString());
-        cp.createpath("Auditorium","Library");
-        cp.drawingpaths(createpaths(),locationarrays,connectionarray);
+        cp.createpath("Auditorium", "Library");
+        cp.drawingpaths(createpaths(), locationarrays, connectionarray);
 
 //        txtsub.setText(locationarrays[0][0]+" "+locationarrays[0][1]);
         InputMethodManager inputManager = (InputMethodManager)
@@ -389,51 +406,46 @@ public class PathActivity extends AppCompatActivity {
                 InputMethodManager.HIDE_NOT_ALWAYS);
 
 
-
 //
-        }
-
-
-
+    }
 
 
     public void submit(View view) {
-        EditText text=findViewById(R.id.txtval);
+        EditText text = findViewById(R.id.txtval);
         float density = getResources().getDisplayMetrics().density;
-        text.setText(""+density);
+        text.setText("" + density);
 
 
     }
 
-    public void showpaths()
-    {
-        EditText  txtsub = (EditText) findViewById(R.id.txtval);
-        CreatePaths cp=new CreatePaths();
-        float auditoriumX,multimediaX,mscroomX,libraryX,lecthall1X,dccnX,liftX,commonX,staffX,washX,
-                auditoriumY,multimediaY,mscroomY,libraryY,lecthall1Y,dccnY,liftY,commonY,staffY,washY;
-        float con1X,con2X,con4X,con5X,con6X,con7X,con8X,con9X,con10X,mainX,
-                con1Y,con2Y,con4Y,con5Y,con6Y,con7Y,con8Y,con9Y,con10Y,mainY;
-        int auditoriumlocationarray[]=new int[2];
-        int multimedialocationarray[]=new int[2];
-        int mscroomlocationarray[]=new int[2];
-        int librarylocationarray[]=new int[2];
-        int lecturehall1locationarray[]=new int[2];
-        int dccnlablocationarray[]=new int[2];
-        int liftlocationarray[]=new int[2];
-        int commonroomlocationarray[]=new int[2];
-        int staffroomlocationarray[]=new int[2];
-        int washroomlocationarray[]=new int[2];
+    public void showpaths() {
+        EditText txtsub = (EditText) findViewById(R.id.txtval);
+        CreatePaths cp = new CreatePaths();
+        float auditoriumX, multimediaX, mscroomX, libraryX, lecthall1X, dccnX, liftX, commonX, staffX, washX,
+                auditoriumY, multimediaY, mscroomY, libraryY, lecthall1Y, dccnY, liftY, commonY, staffY, washY;
+        float con1X, con2X, con4X, con5X, con6X, con7X, con8X, con9X, con10X, mainX,
+                con1Y, con2Y, con4Y, con5Y, con6Y, con7Y, con8Y, con9Y, con10Y, mainY;
+        int auditoriumlocationarray[] = new int[2];
+        int multimedialocationarray[] = new int[2];
+        int mscroomlocationarray[] = new int[2];
+        int librarylocationarray[] = new int[2];
+        int lecturehall1locationarray[] = new int[2];
+        int dccnlablocationarray[] = new int[2];
+        int liftlocationarray[] = new int[2];
+        int commonroomlocationarray[] = new int[2];
+        int staffroomlocationarray[] = new int[2];
+        int washroomlocationarray[] = new int[2];
 
-        int con1array[]=new int[2];
-        int con2array[]=new int[2];
-        int con4array[]=new int[2];
-        int con5array[]=new int[2];
-        int con6array[]=new int[2];
-        int con7array[]=new int[2];
-        int con8array[]=new int[2];
-        int con9array[]=new int[2];
-        int con10array[]=new int[2];
-        int conMainarray[]=new int[2];
+        int con1array[] = new int[2];
+        int con2array[] = new int[2];
+        int con4array[] = new int[2];
+        int con5array[] = new int[2];
+        int con6array[] = new int[2];
+        int con7array[] = new int[2];
+        int con8array[] = new int[2];
+        int con9array[] = new int[2];
+        int con10array[] = new int[2];
+        int conMainarray[] = new int[2];
 
 
         Auditorium.getLocationOnScreen(auditoriumlocationarray);
@@ -459,86 +471,74 @@ public class PathActivity extends AppCompatActivity {
         Main.getLocationOnScreen(conMainarray);
 
         //X coordinates
-        auditoriumX= auditoriumlocationarray[0];
-        multimediaX=multimedialocationarray[0];
-        mscroomX=mscroomlocationarray[0];
-        libraryX=librarylocationarray[0];
-        lecthall1X=lecturehall1locationarray[0];
-        dccnX=dccnlablocationarray[0];
-        liftX=liftlocationarray[0];
-        commonX=commonroomlocationarray[0]+50;
-        staffX=staffroomlocationarray[0]+50;
-        washX=washroomlocationarray[0]+50;
-        con1X=con1array[0];
-        con2X=con2array[0];
-        con4X=con4array[0];
-        con5X=con5array[0];
-        con6X=con6array[0]+50;
-        con7X=con7array[0]+50;
-        con8X=con8array[0]+50;
-        con9X=con9array[0]+50;
-        con10X=con10array[0]+50;
-        mainX=conMainarray[0];
+        auditoriumX = auditoriumlocationarray[0];
+        multimediaX = multimedialocationarray[0];
+        mscroomX = mscroomlocationarray[0];
+        libraryX = librarylocationarray[0];
+        lecthall1X = lecturehall1locationarray[0];
+        dccnX = dccnlablocationarray[0];
+        liftX = liftlocationarray[0];
+        commonX = commonroomlocationarray[0] + 50;
+        staffX = staffroomlocationarray[0] + 50;
+        washX = washroomlocationarray[0] + 50;
+        con1X = con1array[0];
+        con2X = con2array[0];
+        con4X = con4array[0];
+        con5X = con5array[0];
+        con6X = con6array[0] + 50;
+        con7X = con7array[0] + 50;
+        con8X = con8array[0] + 50;
+        con9X = con9array[0] + 50;
+        con10X = con10array[0] + 50;
+        mainX = conMainarray[0];
 
 
+        //Y Coordinates
+        auditoriumY = auditoriumlocationarray[1] - 65;
+        multimediaY = multimedialocationarray[1] - 50;
+        mscroomY = mscroomlocationarray[1] - 50;
+        libraryY = librarylocationarray[1] - 65;
+        lecthall1Y = lecturehall1locationarray[1] - 50;
+        dccnY = dccnlablocationarray[1] - 60;
+        liftY = liftlocationarray[1] - 50;
+        commonY = commonroomlocationarray[1] - 50;
+        staffY = staffroomlocationarray[1];
+        washY = washroomlocationarray[1] - 50;
+
+        con1Y = con1array[1] - 50;
+        con2Y = con2array[1] - 50;
+        con4Y = con4array[1] - 65;
+        con5Y = con5array[1] - 50;
+        con6Y = con6array[1] - 50;
+        con7Y = con7array[1] - 50;
+        con8Y = con8array[1];
+        con9Y = con9array[1] - 50;
+        con10Y = con10array[1] - 50;
+        mainY = conMainarray[1] - 50;
 
 
+        locationarrays = new float[][]
+                {
+                        {auditoriumX, auditoriumY}, {multimediaX, multimediaY}, {mscroomX, mscroomY},
+                        {libraryX, libraryY}, {lecthall1X, lecthall1Y}, {dccnX, dccnY}, {liftX, liftY},
+                        {commonX, commonY}, {staffX, staffY}, {washX, washY}
 
+                };
 
-       //Y Coordinates
-        auditoriumY= auditoriumlocationarray[1]-65;
-        multimediaY=multimedialocationarray[1]-50;
-        mscroomY=mscroomlocationarray[1]-50;
-        libraryY=librarylocationarray[1]-65;
-        lecthall1Y=lecturehall1locationarray[1]-50;
-        dccnY=dccnlablocationarray[1]-60;
-        liftY=liftlocationarray[1]-50;
-        commonY=commonroomlocationarray[1]-50;
-        staffY=staffroomlocationarray[1];
-        washY=washroomlocationarray[1]-50;
-
-        con1Y=con1array[1]-50;
-        con2Y=con2array[1]-50;
-        con4Y=con4array[1]-65;
-        con5Y=con5array[1]-50;
-        con6Y=con6array[1]-50;
-        con7Y=con7array[1]-50;
-        con8Y=con8array[1];
-        con9Y=con9array[1]-50;
-        con10Y=con10array[1]-50;
-        mainY=conMainarray[1]-50;
-
-
-
-       locationarrays=new float[][]
-               {
-                   {auditoriumX,auditoriumY}, {multimediaX,multimediaY},{mscroomX,mscroomY},
-                       {libraryX,libraryY},{lecthall1X,lecthall1Y},{dccnX,dccnY},{liftX,liftY},
-                       {commonX,commonY},{staffX,staffY},{washX,washY}
-
-               };
-
-      connectionarray=new float[][]
-               {
-                       {con1X,con1Y},{con2X,con2Y},{con4X,con4Y},{con5X,con5Y},
-                       {con6X,con6Y},{con7X,con7Y},{con8X,con8Y},{con9X,con9Y},
-                       {con10X,con10Y},{mainX,mainY}
-               };
-
-
-
-
-
-
+        connectionarray = new float[][]
+                {
+                        {con1X, con1Y}, {con2X, con2Y}, {con4X, con4Y}, {con5X, con5Y},
+                        {con6X, con6Y}, {con7X, con7Y}, {con8X, con8Y}, {con9X, con9Y},
+                        {con10X, con10Y}, {mainX, mainY}
+                };
 
 
     }
 
 
-
     // SamWickramarachchi - Request Access Permissions Device Location
 
-    private boolean checkAndRequestPermissions(){
+    private boolean checkAndRequestPermissions() {
         int permissionSendMessage = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
         int locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -550,7 +550,7 @@ public class PathActivity extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         }
         if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
         return true;
@@ -584,7 +584,7 @@ public class PathActivity extends AppCompatActivity {
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                             showDialogOK("Location Services Permission required for this app",
-                                    new DialogInterface.OnClickListener() {
+                                    new DialogInterface.OnClickListener(){
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             switch (which) {
@@ -621,36 +621,165 @@ public class PathActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void MyCustomAlertDialog(){
+
+
+
+
+    public void getRating(final String shopName) {
+
+        viewRate = (TextView) findViewById(R.id.viewrate);
+
+        final String setRatingUrl = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getrating/" + shopName;
+
+        MyStringRequest = new StringRequest(Request.Method.GET, setRatingUrl, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    rating = Double.parseDouble(response);
+
+
+                    Toast.makeText(getApplicationContext(), " rating "+shopName, Toast.LENGTH_LONG).show();
+
+
+                } catch (Exception e) {
+                    String err = e.getMessage();
+                    Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+
+
+        };
+        MyRequestQueue.add(MyStringRequest);
+
+
+    }
+
+
+    public void tacobellDialog() {
         MyDialog = new Dialog(PathActivity.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         MyDialog.setContentView(R.layout.shop);
         MyDialog.setTitle("My Custom Dialog");
 
-        hello = (Button)MyDialog.findViewById(R.id.hello);
-        close = (Button)MyDialog.findViewById(R.id.close);
 
-        hello.setEnabled(true);
+
+        rate = (Button) MyDialog.findViewById(R.id.hello);
+        close = (Button) MyDialog.findViewById(R.id.close);
+
+        rate.setEnabled(true);
         close.setEnabled(true);
 
-        hello.setOnClickListener(new View.OnClickListener() {
+//        Toast.makeText(getApplicationContext(),url, Toast.LENGTH_LONG).show();
+
+        rate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-                String url="http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getShopReviews/taco%20bell";
-                String name="taco bell";
+
+                String url = "taco%20bell";
+                String name = "taco bell";
                 Intent i = new Intent(PathActivity.this, ShopRate.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("image",R.drawable.taco_bell);
+                bundle.putInt("image", R.drawable.taco_bell);
                 i.putExtras(bundle);
-                i.putExtra("keyUrl",url);
-                i.putExtra("keyName",name);
+                i.putExtra("keyUrl", url);
+                i.putExtra("keyName", name);
+
 
                 startActivity(i);
 
             }
         });
-        close.setOnClickListener(new View.OnClickListener() {
+        close.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+
+        MyDialog.show();
+    }
+
+    public void coffeeBeanDialog() {
+        MyDialog = new Dialog(PathActivity.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.shop);
+        MyDialog.setTitle("My Custom Dialog");
+
+        rate = (Button) MyDialog.findViewById(R.id.hello);
+        close = (Button) MyDialog.findViewById(R.id.close);
+
+        rate.setEnabled(true);
+        close.setEnabled(true);
+
+
+        rate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+                String url = "coffee%20bean";
+                String name = "coffee bean";
+                Intent i = new Intent(PathActivity.this, ShopRate.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("image", R.drawable.coffee_bean_shop);
+                i.putExtras(bundle);
+                i.putExtra("keyUrl", url);
+                i.putExtra("keyName", name);
+
+                startActivity(i);
+
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                MyDialog.cancel();
+            }
+        });
+
+        MyDialog.show();
+    }
+
+    public void teaAveneueDialog() {
+        MyDialog = new Dialog(PathActivity.this);
+        MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        MyDialog.setContentView(R.layout.shop);
+        MyDialog.setTitle("My Custom Dialog");
+
+        rate = (Button) MyDialog.findViewById(R.id.hello);
+        close = (Button) MyDialog.findViewById(R.id.close);
+
+        rate.setEnabled(true);
+        close.setEnabled(true);
+
+
+        rate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+                String url = "tea%20avenue";
+                String name = "tea avenue";
+                Intent i = new Intent(PathActivity.this, ShopRate.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("image", R.drawable.tea_avenue_shop);
+                i.putExtras(bundle);
+                i.putExtra("keyUrl", url);
+                i.putExtra("keyName", name);
+
+                startActivity(i);
+
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 MyDialog.cancel();
@@ -662,3 +791,4 @@ public class PathActivity extends AppCompatActivity {
 
 
 }
+
