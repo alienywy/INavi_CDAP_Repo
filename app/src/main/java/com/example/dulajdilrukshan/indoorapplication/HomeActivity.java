@@ -23,9 +23,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        txtusername = findViewById(R.id.txtusername);
-        txtusername.setText(sharedData.getValue());
-
 
 
         Intent i= new Intent(this, ScheduledService.class);

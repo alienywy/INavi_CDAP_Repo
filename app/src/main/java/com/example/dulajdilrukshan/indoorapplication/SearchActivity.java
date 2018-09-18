@@ -41,7 +41,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public  void  goback(View view){
-        Intent goback = new Intent(this,HomeActivity.class);
+        Intent goback = new Intent(getApplicationContext(),HomeActivity.class);
         startActivity(goback);
     }
 

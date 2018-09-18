@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#33ACFF"
+    android:background="#FFFF"
     tools:context=".SignUpActivity"
     tools:layout_editor_absoluteY="81dp">
 
@@ -29,6 +29,7 @@
         android:layout_marginTop="22dp"
         android:text="Sign Up"
         android:textSize="30dp"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

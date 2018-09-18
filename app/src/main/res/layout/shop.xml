@@ -2,17 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="278dp"
     android:layout_height="150dp"
-    android:background="@color/colorPrimary"
+    android:background="#fff"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="315dp"
+        android:layout_width="214dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="31dp"
-        android:text="Rate the Shop"
+        android:text="Rate "
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/viewrate"
+        android:layout_width="214dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="37dp"
+        android:text="0.0"
+        android:textAlignment="center"
         android:textSize="18sp" />
 
     <Button
@@ -23,7 +35,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="22dp"
         android:layout_marginStart="17dp"
-        android:background="#bbdee5"
+        android:background="#33acff"
+        android:textColor="#fff"
         android:text="Rate/View" />
 
     <Button
@@ -35,7 +48,8 @@
         android:layout_marginEnd="22dp"
         android:layout_marginLeft="17dp"
         android:layout_marginStart="17dp"
-        android:background="#f4d894"
+        android:background="#33acff"
+        android:textColor="#fff"
         android:text="Close" />
 
 </RelativeLayout>
