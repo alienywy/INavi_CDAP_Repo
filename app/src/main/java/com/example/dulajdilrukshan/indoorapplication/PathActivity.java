@@ -462,19 +462,19 @@ public class PathActivity extends AppCompatActivity {
         Main.getLocationOnScreen(conMainarray);
 
         //X coordinates
-        auditoriumX= auditoriumlocationarray[0];
+        auditoriumX= (float) (auditoriumlocationarray[0]-2.5*density);
         multimediaX=multimedialocationarray[0];
         mscroomX=mscroomlocationarray[0];
         libraryX=librarylocationarray[0];
         lecthall1X=lecturehall1locationarray[0];
         dccnX=dccnlablocationarray[0];
         liftX=liftlocationarray[0];
-        commonX=commonroomlocationarray[0]+50;
-        staffX=staffroomlocationarray[0]+50;
-        washX=washroomlocationarray[0]+50;
-        con1X=con1array[0];
-        con2X=con2array[0];
-        con4X=con4array[0];
+        commonX=commonroomlocationarray[0];
+        staffX=staffroomlocationarray[0]-50;
+        washX=washroomlocationarray[0]-50;
+        con1X= (float) (con1array[0]-2.5*density);
+        con2X= (float) (con2array[0]-2.5*density);
+        con4X= (float) (con4array[0]-2.5*density);
         con5X=con5array[0];
         con6X=con6array[0]+50;
         con7X=con7array[0]+50;
@@ -489,44 +489,44 @@ public class PathActivity extends AppCompatActivity {
 
 
       // Y Coordinates
-//        auditoriumY= (float) (auditoriumlocationarray[1]-(25*density));
-//        multimediaY= (float) (multimedialocationarray[1]-25*density);
-//        mscroomY=mscroomlocationarray[1]-25*density;
-//        libraryY=librarylocationarray[1]-25*density;
-//        lecthall1Y=lecturehall1locationarray[1]-25*density;
-//        dccnY=dccnlablocationarray[1]-60;
-//        liftY=liftlocationarray[1]-25*density;
-//        commonY=commonroomlocationarray[1]-25*density;
-//        staffY=staffroomlocationarray[1];
-//        washY=washroomlocationarray[1]-25*density;
-//
-//        con1Y=con1array[1]-25*density;
-//        con2Y=con2array[1]-25*density;
-//        con4Y=con4array[1]-25*density;
-//        con5Y=con5array[1]-25*density;
-//        con6Y=con6array[1]-50;
-//        con7Y=con7array[1]-50;
-//        con8Y=con8array[1];
-//        con9Y=con9array[1]-50;
-//        con10Y=con10array[1]-50;
-//        mainY=conMainarray[1]-50;
+        auditoriumY= (float) (auditoriumlocationarray[1]-(25*density));
+        multimediaY= (float) (multimedialocationarray[1]-25*density);
+        mscroomY= (float) (mscroomlocationarray[1]-25*density);
+        libraryY= (float) (librarylocationarray[1]-25*density);
+        lecthall1Y= (float) (lecturehall1locationarray[1]-25*density);
+        dccnY=dccnlablocationarray[1]-60;
+        liftY= (float) (liftlocationarray[1]-25*density);
+        commonY= (float) (commonroomlocationarray[1]-25*density);
+        staffY=staffroomlocationarray[1];
+        washY= (float) (washroomlocationarray[1]-25*density);
+
+        con1Y= (float) (con1array[1]-25*density);
+        con2Y= (float) (con2array[1]-25*density);
+        con4Y= (float) (con4array[1]-25*density);
+        con5Y= (float) (con5array[1]-25*density);
+        con6Y=con6array[1]-50;
+        con7Y=con7array[1]-50;
+        con8Y=con8array[1];
+        con9Y=con9array[1]-50;
+        con10Y=con10array[1]-50;
+        mainY=conMainarray[1]-50;
 
 
 
-//       locationarrays=new float[][]
-//               {
-//                   {auditoriumX,auditoriumY}, {multimediaX,multimediaY},{mscroomX,mscroomY},
-//                       {libraryX,libraryY},{lecthall1X,lecthall1Y},{dccnX,dccnY},{liftX,liftY},
-//                       {commonX,commonY},{staffX,staffY},{washX,washY}
-//
-//               };
-//
-//      connectionarray=new float[][]
-//               {
-//                       {con1X,con1Y},{con2X,con2Y},{con4X,con4Y},{con5X,con5Y},
-//                       {con6X,con6Y},{con7X,con7Y},{con8X,con8Y},{con9X,con9Y},
-//                       {con10X,con10Y},{mainX,mainY}
-//               };
+       locationarrays=new float[][]
+               {
+                   {auditoriumX,auditoriumY}, {multimediaX,multimediaY},{mscroomX,mscroomY},
+                       {libraryX,libraryY},{lecthall1X,lecthall1Y},{dccnX,dccnY},{liftX,liftY},
+                       {commonX,commonY},{staffX,staffY},{washX,washY}
+
+               };
+
+      connectionarray=new float[][]
+               {
+                       {con1X,con1Y},{con2X,con2Y},{con4X,con4Y},{con5X,con5Y},
+                       {con6X,con6Y},{con7X,con7Y},{con8X,con8Y},{con9X,con9Y},
+                       {con10X,con10Y},{mainX,mainY}
+               };
 
 
 
