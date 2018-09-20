@@ -4,7 +4,7 @@ package com.example.dulajdilrukshan.indoorapplication;
  * Created by Oshan Fernando on 8/29/2018.
  */
 
-public class Globals {
+public class Globals{
     private static Globals instance = new Globals();
 
     // Getter-Setters
@@ -17,7 +17,6 @@ public class Globals {
     }
 
     private String username;
-
 
     private Globals() {
 

@@ -16,7 +16,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/viewrate"
+        android:id="@+id/viewRate"
         android:layout_width="214dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

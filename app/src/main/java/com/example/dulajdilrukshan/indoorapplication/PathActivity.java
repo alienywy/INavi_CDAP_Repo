@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -49,12 +50,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class PathActivity extends AppCompatActivity{
+public class PathActivity extends AppCompatActivity implements View.OnClickListener{
     ImageView drawingImageView, creatpath, floorplan;
     TextView error;
     Button navi;
@@ -87,7 +89,7 @@ public class PathActivity extends AppCompatActivity{
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     private static final String TAG = "MainActivity";
 
-
+    //For Rating
     ImageButton shop1;
     ImageButton shop2;
     ImageButton shop3;
@@ -99,6 +101,13 @@ public class PathActivity extends AppCompatActivity{
     private ConstraintLayout popupconstraint;
     Double rating;
 
+//    for voice
+
+    TextToSpeech toSpeech;
+    EditText editText;
+    Button btnspeak;
+    String text;
+    int result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +167,6 @@ public class PathActivity extends AppCompatActivity{
         shop1 = (ImageButton) findViewById(R.id.shop1);
         shop2 = (ImageButton) findViewById(R.id.shop2);
         shop3 = (ImageButton) findViewById(R.id.shop3);
-//        viewRate = (TextView) findViewById(R.id.viewrate);
 
 
         shop1.setOnClickListener(new View.OnClickListener(){
@@ -167,9 +175,6 @@ public class PathActivity extends AppCompatActivity{
 
 
                 getRating("taco%20bell");
-
-
-                tacobellDialog();
             }
         });
 
@@ -177,16 +182,37 @@ public class PathActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
-                coffeeBeanDialog();
+                getRating("coffee%20bean");
+
+
             }
         });
         shop3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
 
-                teaAveneueDialog();
+                getRating("tea%20avenue");
             }
         });
+
+
+//        for voice
+
+        editText = (EditText) findViewById(R.id.txtvoice);
+        btnspeak = (Button) findViewById(R.id.btnvoice);
+
+        btnspeak.setOnClickListener(this);
+        toSpeech = new TextToSpeech(PathActivity.this, new TextToSpeech.OnInitListener(){
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    result = toSpeech.setLanguage(Locale.US);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Feature not supported in your device", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         String url = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/gettemp";
 
@@ -217,6 +243,39 @@ public class PathActivity extends AppCompatActivity{
 
 
     }
+
+//    voice implementation
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (toSpeech != null) {
+            toSpeech.stop();
+            toSpeech.shutdown();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnvoice:
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Toast.makeText(getApplicationContext(), "Feature not supported in your device", Toast.LENGTH_SHORT).show();
+                } else {
+                    text = editText.getText().toString();
+                    toSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
+                break;
+//            case R.id.bstop:
+//                if (toSpeech != null) {
+//                    toSpeech.stop();
+//                }
+//                break;
+        }
+
+    }
+
 
     // Overriding compare method to sort by rss level
     Comparator<ScanResult> comparator = new Comparator<ScanResult>(){
@@ -622,12 +681,8 @@ public class PathActivity extends AppCompatActivity{
     }
 
 
-
-
-
     public void getRating(final String shopName) {
 
-        viewRate = (TextView) findViewById(R.id.viewrate);
 
         final String setRatingUrl = "http://ec2-18-191-196-123.us-east-2.compute.amazonaws.com:8081/getrating/" + shopName;
 
@@ -638,8 +693,21 @@ public class PathActivity extends AppCompatActivity{
 
                     rating = Double.parseDouble(response);
 
+                    if (shopName == "taco%20bell") {
 
-                    Toast.makeText(getApplicationContext(), " rating "+shopName, Toast.LENGTH_LONG).show();
+                        tacobellDialog(rating);
+                    }
+                    if (shopName == "coffee%20bean") {
+
+                        coffeeBeanDialog(rating);
+                    }
+                    if (shopName == "tea%20avenue") {
+
+                        teaAveneueDialog(rating);
+                    }
+                    if (shopName.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "No shop Ratings", Toast.LENGTH_LONG).show();
+                    }
 
 
                 } catch (Exception e) {
@@ -658,16 +726,17 @@ public class PathActivity extends AppCompatActivity{
         };
         MyRequestQueue.add(MyStringRequest);
 
-
     }
 
 
-    public void tacobellDialog() {
+    public void tacobellDialog(double rating) {
         MyDialog = new Dialog(PathActivity.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         MyDialog.setContentView(R.layout.shop);
         MyDialog.setTitle("My Custom Dialog");
 
+        viewRate = MyDialog.findViewById(R.id.viewRate);
+        viewRate.setText(String.valueOf(rating));
 
 
         rate = (Button) MyDialog.findViewById(R.id.hello);
@@ -676,7 +745,6 @@ public class PathActivity extends AppCompatActivity{
         rate.setEnabled(true);
         close.setEnabled(true);
 
-//        Toast.makeText(getApplicationContext(),url, Toast.LENGTH_LONG).show();
 
         rate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -707,11 +775,14 @@ public class PathActivity extends AppCompatActivity{
         MyDialog.show();
     }
 
-    public void coffeeBeanDialog() {
+    public void coffeeBeanDialog(double rating) {
         MyDialog = new Dialog(PathActivity.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         MyDialog.setContentView(R.layout.shop);
         MyDialog.setTitle("My Custom Dialog");
+
+        viewRate = MyDialog.findViewById(R.id.viewRate);
+        viewRate.setText(String.valueOf(rating));
 
         rate = (Button) MyDialog.findViewById(R.id.hello);
         close = (Button) MyDialog.findViewById(R.id.close);
@@ -748,11 +819,14 @@ public class PathActivity extends AppCompatActivity{
         MyDialog.show();
     }
 
-    public void teaAveneueDialog() {
+    public void teaAveneueDialog(double rating) {
         MyDialog = new Dialog(PathActivity.this);
         MyDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         MyDialog.setContentView(R.layout.shop);
         MyDialog.setTitle("My Custom Dialog");
+
+        viewRate = MyDialog.findViewById(R.id.viewRate);
+        viewRate.setText(String.valueOf(rating));
 
         rate = (Button) MyDialog.findViewById(R.id.hello);
         close = (Button) MyDialog.findViewById(R.id.close);
