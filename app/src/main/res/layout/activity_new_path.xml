@@ -27,7 +27,7 @@
             android:layout_weight="20"
             android:background="#33ACFF"
             android:orientation="horizontal"
-            android:padding="5dp"
+            android:padding="10dp"
             android:weightSum="100">
 
             <ImageButton
@@ -45,8 +45,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="65"
                 android:gravity="center_vertical"
-                android:weightSum="2"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -148,31 +148,50 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/linLayBot"
             android:layout_width="match_parent"
             android:layout_height="420dp"
             android:layout_weight="80"
-            android:orientation="vertical">
+            android:padding="10dp">
 
 
             <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayout">
+                android:id="@+id/relativeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.509">
+
 
                 <ImageView
                     android:id="@+id/floorPlan"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:padding="10dp"
-                    android:src="@drawable/floor_plan_no_grid"
+                    android:src="@drawable/floorplan_chk"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/canvas"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/floorplan_chk"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <!--Shop Buttons-->
+
                 <ImageButton
                     android:id="@+id/shop1"
                     android:layout_width="wrap_content"
@@ -180,10 +199,10 @@
                     android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.099"
+                    app:layout_constraintHorizontal_bias="0.097"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.165"
+                    app:layout_constraintVertical_bias="0.139"
                     app:srcCompat="@drawable/taco_bell_shop" />
 
                 <ImageButton
@@ -215,28 +234,28 @@
                 <!--Voice related-->
                 <Button
                     android:id="@+id/btnvoice"
-                    android:layout_width="56dp"
-                    android:layout_height="35dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="V"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.317"
+                    app:layout_constraintHorizontal_bias="0.414"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.973" />
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <EditText
                     android:id="@+id/txtvoice"
-                    android:layout_width="104dp"
-                    android:layout_height="37dp"
+                    android:layout_width="113dp"
+                    android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btnvoice"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.921"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.957" />
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <Button
                     android:id="@+id/btnCanvas"
@@ -250,9 +269,65 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.098" />
 
+                <!--Test-->
+                <LinearLayout
+                    android:id="@+id/onesqmeter"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:gravity="center_horizontal|center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.734"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.701" />
+
+                <!--AP locations-->
+                <LinearLayout
+                    android:id="@+id/APe5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.109"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.515" />
+
+                <LinearLayout
+                    android:id="@+id/APb8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.68" />
+
+                <LinearLayout
+                    android:id="@+id/Router28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.477"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.236" />
+
+                <!--end test-->
+
             </android.support.constraint.ConstraintLayout>
 
-        </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
