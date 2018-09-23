@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -29,6 +30,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +59,13 @@ public class NewPathActivity extends AppCompatActivity  implements View.OnClickL
 
     ImageView drawingImageView;
     Button bt;
+
+    //Test-----
+    LinearLayout linLocation;
+    int sqrMeter[] = new int[2];
+    RadioButton chk;
+    LinearLayout APe5,APb8,Router28;
+    //end Test-----
 
     //Variables for linLayTop-----------------------------------------------------------------------------------------------------------
     EditText fromtxt;
@@ -107,12 +117,25 @@ public class NewPathActivity extends AppCompatActivity  implements View.OnClickL
         setContentView(R.layout.activity_new_path);
 //-----------------------test--------------------------------
         bt = findViewById(R.id.btnCanvas);
+        linLocation = findViewById(R.id.onesqmeter);
+
+        APb8 = findViewById(R.id.APb8);
+        APe5 = findViewById(R.id.APe5);
+        Router28 = findViewById(R.id.Router28);
+
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawRect(drawCanvas());
+                test();
+//                getAPlocations();
             }
         });
+
+        linLocation.getLocationOnScreen(sqrMeter);
+
+
+
 //-----------------------/test--------------------------------
 
 
@@ -216,7 +239,7 @@ public class NewPathActivity extends AppCompatActivity  implements View.OnClickL
 
     public Canvas drawCanvas() {
 
-        drawingImageView = this.findViewById(R.id.floorPlan);
+        drawingImageView = this.findViewById(R.id.canvas);
         int screenWidth,screenHeight;
 
 //        DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -225,10 +248,13 @@ public class NewPathActivity extends AppCompatActivity  implements View.OnClickL
 //        int screenWidth = displayMetrics.widthPixels;
 //        int screenHeight = displayMetrics.heightPixels;
 
-        LinearLayout layout = this.findViewById(R.id.linLayBot);
+//        ConstraintLayout layout = findViewById(R.id.linLayBot);
 
-        screenHeight = layout.getHeight();
-        screenWidth = layout.getWidth();
+//        RelativeLayout layout = findViewById(R.id.relativeLayout);
+        ImageView img = findViewById(R.id.floorPlan);
+
+        screenHeight = img.getHeight();
+        screenWidth = img.getWidth();
 
 
         Bitmap bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
@@ -395,7 +421,10 @@ public class NewPathActivity extends AppCompatActivity  implements View.OnClickL
 
     private Runnable measureRSSI = new Runnable(){
 
+
         public void run() {
+
+            linLocation = findViewById(R.id.onesqmeter);
             if (wifiManager.isWifiEnabled()) {
                 wifiManager.startScan();
                 List<ScanResult> results = wifiManager.getScanResults();
@@ -438,11 +467,15 @@ public class NewPathActivity extends AppCompatActivity  implements View.OnClickL
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
                                     // Convert meters into pixels
-                                    x = ((float) jsonObject.getDouble("x")) * 25;
-                                    y = ((float) jsonObject.getDouble("y")) * 25;
+
+//                                    x = ((float) jsonObject.getDouble("x"))*sqrMeter[0];
+//                                    y = ((float) jsonObject.getDouble("y"))*sqrMeter[0];
+                                    x = ((float) jsonObject.getDouble("x"))*20;
+                                    y = ((float) jsonObject.getDouble("y"))*20;
                                     showLocation(x, y);
                                     Toast.makeText(NewPathActivity.this, jsonObject.getDouble("x")
                                             + " " + jsonObject.getDouble("y"), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(NewPathActivity.this,x+","+y,Toast.LENGTH_LONG).show();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -658,6 +691,59 @@ public class NewPathActivity extends AppCompatActivity  implements View.OnClickL
         });
 
         MyDialog.show();
+    }
+
+    //---------------Test-----------------------------------------------------------------------
+    public void test() {
+        int location[] = new int[2];
+
+        linLocation.getLocationOnScreen(location);
+
+
+        double w = linLocation.getWidth();
+        double h = linLocation.getHeight();
+
+        showDialogOK("x:" + location[0] + " y:" + location[1]+"\nw:"+w+" h:"+h, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+    }
+
+    public void getAPlocations(){
+        int APb8ar[] = new int[2];
+        int APe5ar[] = new int[2];
+        int Router28ar[] = new int[2];
+        int location[] = new int[2];
+        double AP1[] = new double[2];
+        double AP2[] = new double[2];
+        double AP3[] = new double[2];
+
+        double oneMeter = linLocation.getWidth();
+
+        APb8.getLocationOnScreen(APb8ar);
+        APe5.getLocationOnScreen(APe5ar);
+        Router28.getLocationOnScreen(Router28ar);
+
+        AP1[0] = APb8ar[0]/oneMeter;
+        AP2[0] = APe5ar[0]/oneMeter;
+        AP3[0] = Router28ar[0]/oneMeter;
+
+        AP1[1] = APb8ar[1]/oneMeter;
+        AP2[1] = APe5ar[1]/oneMeter;
+        AP3[1] = Router28ar[1]/oneMeter;
+
+        String locations = "APb8 x:"+AP1[0]+" y:"+AP1[1]+
+                "\nAPe5 x:"+AP2[0]+" y:"+AP2[1]+
+                "\nRouter28 x:"+AP3[0]+" y:"+AP3[1];
+
+        showDialogOK(locations, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
     }
 }
 
