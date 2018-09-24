@@ -399,8 +399,7 @@ public class PathActivity extends AppCompatActivity {
 
     public void submit(View view) {
         EditText text=findViewById(R.id.txtval);
-        double density = getResources().getDisplayMetrics().density;
-        density=Math.round(density*10)/10.0;
+        float density = getResources().getDisplayMetrics().density;
         text.setText(""+density);
 
 
@@ -410,8 +409,6 @@ public class PathActivity extends AppCompatActivity {
     {
         EditText  txtsub = (EditText) findViewById(R.id.txtval);
         CreatePaths cp=new CreatePaths();
-        double density = getResources().getDisplayMetrics().density;
-        density=Math.round(density*10)/10.0;
         float auditoriumX,multimediaX,mscroomX,libraryX,lecthall1X,dccnX,liftX,commonX,staffX,washX,
                 auditoriumY,multimediaY,mscroomY,libraryY,lecthall1Y,dccnY,liftY,commonY,staffY,washY;
         float con1X,con2X,con4X,con5X,con6X,con7X,con8X,con9X,con10X,mainX,
@@ -488,45 +485,45 @@ public class PathActivity extends AppCompatActivity {
 
 
 
-      // Y Coordinates
-//        auditoriumY= (float) (auditoriumlocationarray[1]-(25*density));
-//        multimediaY= (float) (multimedialocationarray[1]-25*density);
-//        mscroomY=mscroomlocationarray[1]-25*density;
-//        libraryY=librarylocationarray[1]-25*density;
-//        lecthall1Y=lecturehall1locationarray[1]-25*density;
-//        dccnY=dccnlablocationarray[1]-60;
-//        liftY=liftlocationarray[1]-25*density;
-//        commonY=commonroomlocationarray[1]-25*density;
-//        staffY=staffroomlocationarray[1];
-//        washY=washroomlocationarray[1]-25*density;
-//
-//        con1Y=con1array[1]-25*density;
-//        con2Y=con2array[1]-25*density;
-//        con4Y=con4array[1]-25*density;
-//        con5Y=con5array[1]-25*density;
-//        con6Y=con6array[1]-50;
-//        con7Y=con7array[1]-50;
-//        con8Y=con8array[1];
-//        con9Y=con9array[1]-50;
-//        con10Y=con10array[1]-50;
-//        mainY=conMainarray[1]-50;
+       //Y Coordinates
+        auditoriumY= auditoriumlocationarray[1]-65;
+        multimediaY=multimedialocationarray[1]-50;
+        mscroomY=mscroomlocationarray[1]-50;
+        libraryY=librarylocationarray[1]-65;
+        lecthall1Y=lecturehall1locationarray[1]-50;
+        dccnY=dccnlablocationarray[1]-60;
+        liftY=liftlocationarray[1]-50;
+        commonY=commonroomlocationarray[1]-50;
+        staffY=staffroomlocationarray[1];
+        washY=washroomlocationarray[1]-50;
+
+        con1Y=con1array[1]-50;
+        con2Y=con2array[1]-50;
+        con4Y=con4array[1]-65;
+        con5Y=con5array[1]-50;
+        con6Y=con6array[1]-50;
+        con7Y=con7array[1]-50;
+        con8Y=con8array[1];
+        con9Y=con9array[1]-50;
+        con10Y=con10array[1]-50;
+        mainY=conMainarray[1]-50;
 
 
 
-//       locationarrays=new float[][]
-//               {
-//                   {auditoriumX,auditoriumY}, {multimediaX,multimediaY},{mscroomX,mscroomY},
-//                       {libraryX,libraryY},{lecthall1X,lecthall1Y},{dccnX,dccnY},{liftX,liftY},
-//                       {commonX,commonY},{staffX,staffY},{washX,washY}
-//
-//               };
-//
-//      connectionarray=new float[][]
-//               {
-//                       {con1X,con1Y},{con2X,con2Y},{con4X,con4Y},{con5X,con5Y},
-//                       {con6X,con6Y},{con7X,con7Y},{con8X,con8Y},{con9X,con9Y},
-//                       {con10X,con10Y},{mainX,mainY}
-//               };
+       locationarrays=new float[][]
+               {
+                   {auditoriumX,auditoriumY}, {multimediaX,multimediaY},{mscroomX,mscroomY},
+                       {libraryX,libraryY},{lecthall1X,lecthall1Y},{dccnX,dccnY},{liftX,liftY},
+                       {commonX,commonY},{staffX,staffY},{washX,washY}
+
+               };
+
+      connectionarray=new float[][]
+               {
+                       {con1X,con1Y},{con2X,con2Y},{con4X,con4Y},{con5X,con5Y},
+                       {con6X,con6Y},{con7X,con7Y},{con8X,con8Y},{con9X,con9Y},
+                       {con10X,con10Y},{mainX,mainY}
+               };
 
 
 
